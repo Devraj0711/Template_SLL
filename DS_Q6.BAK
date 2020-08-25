@@ -1,0 +1,292 @@
+ //Doubly Linked List Using Templates
+ #include<iostream.h>
+// #include<conio.h>
+ #include<process.h>
+ #include<iomanip.h>
+ template <typename A>
+ class linkedlist
+	{
+  struct Node
+ {
+ A data;
+ Node *prev,*nxt;
+ };
+ Node<A> *head,*tail;
+ public:
+ linkedlist()
+ {
+ head=NULL;
+ tail=NULL;
+ }
+ void create();
+ void insertend();
+ void insertbeg();
+ void insertloc();
+ void delbeg();
+ void delend();
+ void delloc();
+ void reverse();
+ void search();
+ void display();
+ };
+ template <typename A>
+ void linkedlist<A>::create()
+ {
+ Node<A> *temp=new Node();
+ cout<<"Enter the value of Data\n";
+ cin>>temp->data;
+ temp->nxt=temp->prev=NULL;
+ if(head==NULL&&tail==NULL)
+ {
+ head=tail=temp;
+ }
+ else
+ {
+ temp->prev=tail;
+ tail->nxt=temp;
+ tail=temp;
+ head->prev=NULL;
+ }
+}
+template <typename A>
+  void linkedlist<A>::insertbeg()
+{
+Node<A> *temp=new Node();
+cout<<"\nenter the value in the data\n";
+cin>>temp->data;
+if(head==NULL)
+{
+cout<<"Empty\n";
+}
+temp->nxt=head;
+temp->prev=tail;
+head=temp;
+}
+template <typename A>
+void linkedlist<A>::insertend()
+{
+Node<A> *temp=new Node();
+cout<<"\nenter the value in the data\n";
+cin>>temp->data;
+if(head==NULL)
+{
+cout<<"Empty\n";
+}
+tail->nxt=temp;
+temp->prev=tail;
+temp->nxt=NULL;
+tail=temp;
+}
+template <typename A>
+void linkedlist<A>::delbeg()
+{
+Node<A> *temp=new Node();
+if(head==NULL)
+{
+cout<<"Empty\n";
+}
+temp=head;
+head=head->nxt;
+head->prev=tail;
+delete temp;
+}
+template <typename A>
+void linkedlist<A>::delend()
+{
+Node<A> *temp=new Node();
+if(head==NULL)
+{
+cout<<"Empty\n";
+}
+temp=tail;
+tail=tail->prev;
+tail->nxt=NULL;
+delete temp;
+}
+template <typename A>
+void linkedlist<A>::insertloc()
+{
+if(head==NULL)
+{
+cout<<"\nempty\n";
+}
+int n1;
+cout<<"\nEnter the location for insertion\n";
+cin>>n1;
+if(n1==1)
+{
+insertbeg();
+}
+Node<A> *temp=new Node();
+temp=head;
+for(int i=0;i<n1-2&&temp!=NULL;i++)
+temp=temp->nxt;
+if(temp==tail)
+{
+insertend();
+}
+Node<A> *temp1=new Node();
+cout<<"Enter the data \n";
+cin>>temp1->data;
+temp1->prev=temp;
+temp1->nxt=temp->nxt;
+temp->nxt=temp1;
+if(temp==tail)
+{
+tail=temp1;
+}
+}
+  template <typename A>
+void linkedlist<A>::delloc()
+{
+if(head==NULL)
+{
+cout<<"\nempty\n";
+}
+int n1;
+cout<<"\nEnter the location for deletion\n";
+cin>>n1;
+if(n1==1)
+{
+delbeg();
+}
+Node<A> *temp=new Node<A>();
+temp=head;
+for(int i=0;i<n1-2&&temp!=NULL;i++)
+temp=temp->nxt;
+ if(temp==tail)
+ {
+ delend();
+ }
+ Node<A> *temp1=new Node<A>();
+ temp1=temp->nxt;
+ temp1->nxt->prev=temp;
+ temp->nxt=temp1->nxt;
+ delete temp1;
+ }
+ template <typename A>
+ void linkedlist<A>::reverse()
+ {
+ Node<A> *current;
+ Node<A> *temp=NULL;
+ current=head;
+ if(head==NULL)
+ {
+ cout<<"\nempty\n";
+ }
+ else if(current->nxt==NULL)
+ {
+ cout<<"\n No need to reverse the list\n";
+ }
+ else
+ {
+ while(current!=NULL)
+ {
+ temp=current->prev;
+ current->prev=current->nxt;
+ current->nxt=temp;
+ current=current->prev;
+ }
+ if(temp!=NULL)
+ {
+ temp=temp->prev;
+ }
+ }
+ }
+ template <typename A>
+ void linkedlist<A>::search()
+ {
+ int ele;
+ cout<<"\nenter the data to be searched\n";
+ cin>>ele;
+ Node<A> *temp=new Node<A>();
+ temp=head;
+ int flag=0;
+ while(temp!=NULL)
+ {
+ if(temp->data==ele)
+ {
+ flag++;
+ }
+ temp=temp->nxt;
+ }
+ if(flag!=0)
+ {
+ cout<<"\nELEMENT FOUND\n";
+ cout<<"\n No of times element is found: "<<flag<<endl;
+ }
+ else
+ {
+ cout<<"\nNot found\n";
+ }
+ }
+  template <typename A>
+ void linkedlist<A>::display()
+ {
+if(head==NULL)
+ {
+cout<<"\nempty\n";
+ }
+ Node<A> *temp=new Node<A>();
+ temp=head;
+ cout<<"\nLIST DISPLAYED\n";
+ while(temp!=NULL)
+ {
+ cout<<temp->data<<"\t";
+ temp=temp->nxt;
+ }
+ cout<<endl;
+ }
+ void main()
+    {
+ clrscr();
+ int ch;
+ linkedlist<int> l1;
+ do
+    {
+ cout<<"\nENTER YOUR CHOICE: \n1.to create \n2.to Display\n";
+ cout<<"3.to insert the Data in beginning\n4.to insert the data in the end\n";
+ cout<<"5.to delete the first element\n6.to delete the element in the end\n";
+ cout<<"7.to enter the data at the specific loction\n8.to delete the data at the specific location\n";
+ cout<<"9.to reverse the List\n10.to search for a data\n11.to Exit\n";
+ cin>>ch;
+ switch(ch)
+      {
+	case 1:
+	l1.create();
+	break;
+	case 2:
+	l1.display();
+	break;
+	case 3:
+	l1.insertbeg();
+	break;
+	case 4:
+	l1.insertend();
+	break;
+	case 11:
+	exit(0);
+	break;
+	case 5:
+	l1.delbeg();
+	break;
+	case 6:
+	l1.delend();
+	break;
+	case 7:
+	l1.insertloc();
+	break;
+	case 8:
+	l1.delloc();
+	break;
+	case 9:
+	l1.reverse();
+	break;
+	case 10:
+	l1.search();
+		break;
+      }
+}while(ch!=0);
+getch();
+}
+
